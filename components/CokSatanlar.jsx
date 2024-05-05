@@ -1,18 +1,15 @@
 import { useState } from "react";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
+import IconButton from "@mui/material/IconButton";
+import { Transition } from "@headlessui/react";
 
 export default function CokSatanlar({ urunler, baslik }) {
-  const [showAll, setShowAll] = useState(false);
-
-  // Tüm ürünleri göster/gizle fonksiyonu
-  const toggleShowAll = () => {
-    setShowAll(!showAll);
-  };
+  const [startItemIndex, setStartItemIndex] = useState(0);
 
   const baslikRengi =
     baslik === "Çok Satanlar"
@@ -23,96 +20,116 @@ export default function CokSatanlar({ urunler, baslik }) {
       ? "text-slate-400"
       : "";
 
+  const scrollLeft = () => {
+    if (startItemIndex > 0) {
+      setStartItemIndex((prevIndex) => prevIndex - 1);
+    }
+  };
+
+  const scrollRight = () => {
+    if (startItemIndex < urunler.length - 4) {
+      setStartItemIndex((prevIndex) => prevIndex + 1);
+    }
+  };
+
   return (
-    <>
-      <div className="relative mx-auto max-w-screen-lg mt-2 items-center">
-        <div className={`text-2xl font-semibold ${baslikRengi}`}>{baslik}</div>
-        <div
-          className={`flex mt-2 space-x-4 justify-center ${
-            showAll ? "flex-wrap" : ""
-          }`}
-        >
+    <div className="relative mx-auto max-w-screen-lg mt-2">
+      <div className={`text-2xl font-semibold ${baslikRengi}`}>{baslik}</div>
+      <div className="flex items-center justify-center">
+        {startItemIndex >= 0 && (
+          <IconButton
+            onClick={scrollLeft}
+            className="bg-white shadow-lg rounded-full hover:bg-blue-900 mr-2"
+          >
+            <MdChevronLeft />
+          </IconButton>
+        )}
+        <div className="flex mt-2 space-x-4 overflow-hidden relative">
           {urunler
-            ?.slice(0, showAll ? urunler.length : 4)
+            ?.slice(startItemIndex, startItemIndex + 4)
             .map((urun, index) => (
-              <Card
+              <Transition
+                as={Card}
                 key={index}
-                sx={{ maxWidth: 220 }}
-                className={`transition-transform duration-300 transform-gpu hover:scale-105 hover:shadow-lg hover:border-transparent cursor-pointer p-2 mb-2 ${
-                  baslik === "Popüler Ürünler" ? "bg-red-50" : ""
-                }  ${baslik === "Çok Satanlar" ? "bg-green-100" : ""}
-                
-                ${baslik === "Bu Ay Herkes Peşinde" ? "bg-slate-50" : ""}
-                
-                `}
+                show={true}
+                enter="transition-opacity duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity duration-300"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+                className="max-w-xs mx-auto"
               >
-                <CardMedia
-                  sx={{ height: 100 }}
-                  image={urun.ImgUrl}
-                  title="Ürün Resmi"
-                />
-                <CardContent className="text-center">
-                  <Typography gutterBottom variant="h5" component="div">
-                    {urun.ad}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.primary"
-                    className="mb-2 line-clamp-2"
-                  >
-                    {urun.aciklama}
-                  </Typography>
-                  <Rating
-                    name="read-only"
-                    value={urun.puan}
-                    readOnly
-                    className="mb-2"
+                <Card
+                  sx={{ maxWidth: 220 }}
+                  className={`overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-lg hover:border-transparent cursor-pointer p-2 mb-2 ${
+                    baslik === "Popüler Ürünler" ? "bg-red-50" : ""
+                  } ${baslik === "Çok Satanlar" ? "bg-green-100" : ""} ${
+                    baslik === "Bu Ay Herkes Peşinde" ? "bg-slate-50" : ""
+                  }`}
+                >
+                  <CardMedia
+                    sx={{ height: 100 }}
+                    image={urun.ImgUrl}
+                    title="Ürün Resmi"
                   />
-                  {urun.indirim ? (
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      className="line-through mb-2"
-                    >
-                      {urun.fiyat} TL
+                  <CardContent className="text-center">
+                    <Typography gutterBottom variant="h5" component="div">
+                      {urun.ad}
                     </Typography>
-                  ) : (
                     <Typography
                       variant="body2"
-                      color="text.secondary"
+                      color="text.primary"
+                      className="mb-2 line-clamp-2"
+                    >
+                      {urun.aciklama}
+                    </Typography>
+                    <Rating
+                      name="read-only"
+                      value={urun.puan}
+                      readOnly
                       className="mb-2"
-                    >
-                      {urun.fiyat} TL
-                    </Typography>
-                  )}
-                  {urun.indirim && (
-                    <Typography
-                      variant="body2"
-                      color="red"
-                      className="font-semibold"
-                    >
-                      İndirimli Fiyat: {urun.fiyat - urun.indirim} TL
-                    </Typography>
-                  )}
-                </CardContent>
-              </Card>
+                    />
+                    {urun.indirim ? (
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        className="line-through mb-2"
+                      >
+                        {urun.fiyat} TL
+                      </Typography>
+                    ) : (
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        className="mb-2"
+                      >
+                        {urun.fiyat} TL
+                      </Typography>
+                    )}
+                    {urun.indirim && (
+                      <Typography
+                        variant="body2"
+                        color="red"
+                        className="font-semibold mb-2"
+                      >
+                        İndirimli Fiyat: {urun.fiyat - urun.indirim} TL
+                      </Typography>
+                    )}
+                  </CardContent>
+                </Card>
+              </Transition>
             ))}
         </div>
-        {/* Tüm ürünleri göster/gizle butonu */}
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={toggleShowAll}
-            className="flex items-center space-x-2 text-gray-500 hover:text-gray-700"
+        {startItemIndex < urunler.length - 3 && (
+          <IconButton
+            onClick={scrollRight}
+            className="bg-white shadow-lg rounded-full hover:bg-blue-900 ml-2"
           >
-            {showAll ? (
-              <MdVisibilityOff className="text-xl" />
-            ) : (
-              <MdVisibility className="text-xl" />
-            )}
-            <span>{showAll ? "Gizle" : "Tümünü Göster"}</span>
-          </button>
-        </div>
+            <MdChevronRight />
+          </IconButton>
+        )}
       </div>
-    </>
+    </div>
   );
 }
