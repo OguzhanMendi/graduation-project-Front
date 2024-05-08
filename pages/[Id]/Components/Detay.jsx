@@ -59,11 +59,11 @@ export default function Detay() {
                   clipRule="evenodd"
                 />
               </svg>
-              <span className="text-gray-800 font-semibold">4.5</span>
+              <span className="text-gray-800 font-semibold">2.5</span>
             </div>
           </div>
           <div className="flex justify-center items-center mb-6">
-            <span className="text-gray-800 mr-2">Quantity:</span>
+            <span className="text-gray-800 mr-2">Adet:</span>
             <Button
               onClick={handleDecrement}
               variant="contained"

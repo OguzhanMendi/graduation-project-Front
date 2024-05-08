@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 import IconButton from "@mui/material/IconButton";
 import { Transition } from "@headlessui/react";
+import Link from "next/link";
 
 export default function CokSatanlar({ urunler, baslik }) {
   const [startItemIndex, setStartItemIndex] = useState(0);
@@ -60,64 +61,66 @@ export default function CokSatanlar({ urunler, baslik }) {
                 leaveTo="opacity-0"
                 className="max-w-xs mx-auto"
               >
-                <Card
-                  sx={{ maxWidth: 220 }}
-                  className={`overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-lg hover:border-transparent cursor-pointer p-2 mb-2 ${
-                    baslik === "Popüler Ürünler" ? "bg-red-50" : ""
-                  } ${baslik === "Çok Satanlar" ? "bg-green-100" : ""} ${
-                    baslik === "Bu Ay Herkes Peşinde" ? "bg-slate-50" : ""
-                  }`}
-                >
-                  <CardMedia
-                    sx={{ height: 100 }}
-                    image={urun.ImgUrl}
-                    title="Ürün Resmi"
-                  />
-                  <CardContent className="text-center">
-                    <Typography gutterBottom variant="h5" component="div">
-                      {urun.ad}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.primary"
-                      className="mb-2 line-clamp-2"
-                    >
-                      {urun.aciklama}
-                    </Typography>
-                    <Rating
-                      name="read-only"
-                      value={urun.puan}
-                      readOnly
-                      className="mb-2"
+                <Link href={`/${urun.id}`} passHref>
+                  <Card
+                    sx={{ maxWidth: 220 }}
+                    className={`overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-lg hover:border-transparent cursor-pointer p-2 mb-2 ${
+                      baslik === "Popüler Ürünler" ? "bg-red-50" : ""
+                    } ${baslik === "Çok Satanlar" ? "bg-green-100" : ""} ${
+                      baslik === "Bu Ay Herkes Peşinde" ? "bg-slate-50" : ""
+                    }`}
+                  >
+                    <CardMedia
+                      sx={{ height: 100 }}
+                      image={urun.ImgUrl}
+                      title="Ürün Resmi"
                     />
-                    {urun.indirim ? (
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        className="line-through mb-2"
-                      >
-                        {urun.fiyat} TL
+                    <CardContent className="text-center">
+                      <Typography gutterBottom variant="h5" component="div">
+                        {urun.ad}
                       </Typography>
-                    ) : (
                       <Typography
                         variant="body2"
-                        color="text.secondary"
+                        color="text.primary"
+                        className="mb-2 line-clamp-2"
+                      >
+                        {urun.aciklama}
+                      </Typography>
+                      <Rating
+                        name="read-only"
+                        value={urun.puan}
+                        readOnly
                         className="mb-2"
-                      >
-                        {urun.fiyat} TL
-                      </Typography>
-                    )}
-                    {urun.indirim && (
-                      <Typography
-                        variant="body2"
-                        color="red"
-                        className="font-semibold mb-2"
-                      >
-                        İndirimli Fiyat: {urun.fiyat - urun.indirim} TL
-                      </Typography>
-                    )}
-                  </CardContent>
-                </Card>
+                      />
+                      {urun.indirim ? (
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          className="line-through mb-2"
+                        >
+                          {urun.fiyat} TL
+                        </Typography>
+                      ) : (
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          className="mb-2"
+                        >
+                          {urun.fiyat} TL
+                        </Typography>
+                      )}
+                      {urun.indirim && (
+                        <Typography
+                          variant="body2"
+                          color="red"
+                          className="font-semibold mb-2"
+                        >
+                          İndirimli Fiyat: {urun.fiyat - urun.indirim} TL
+                        </Typography>
+                      )}
+                    </CardContent>
+                  </Card>
+                </Link>
               </Transition>
             ))}
         </div>
