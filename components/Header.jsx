@@ -35,6 +35,9 @@ export default function Header() {
     setAnchorEl(null);
   };
 
+  const email = user?.user.email;
+  const username = email ? email.split("@")[0] : "";
+
   return (
     <>
       <div className="w-full  flex  justify-center gap-10 p-1  items-center ">
@@ -77,7 +80,7 @@ export default function Header() {
               <span>
                 <PersonIcon />
               </span>
-              <span>Hesabım</span>
+              <span>{username}</span>
             </div>
             <div>
               <Menu
@@ -101,7 +104,6 @@ export default function Header() {
                       type: "LOGOUT",
                     });
                     Cookie.remove("user_token");
-                    router.push("/login");
                   }}
                 >
                   <ListItemIcon>
