@@ -8,15 +8,14 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ selectedCompo }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [sirketAc, setSirketAc] = useState(false);
+
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
-  const sirketMenu = () => setSirketAc(!sirketAc);
+
   const toggleMobileMenu = () => setMobileOpen(!mobileOpen);
-  const preventClosing = (e) => e.stopPropagation();
 
   return (
     <div className="flex">
@@ -40,52 +39,31 @@ export default function AdminSidebar() {
               className="flex items-center py-2 px-4 hover:bg-gray-700 rounded-xl cursor-pointer"
               onClick={toggleMenu}
             >
-              {mobileOpen ? <span>QR MENÜ</span> : <MenuBookIcon />}
+              {mobileOpen ? <span>İŞLEMLER</span> : <MenuBookIcon />}
               <div className="ml-auto">
                 {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
               </div>
             </div>
             {isOpen && (
               <ul className="pl-4">
-                <li className="py-2 hover:bg-gray-600 rounded-md">
-                  Ana Grup Oluştur
+                <li
+                  className="py-2 hover:bg-gray-600 rounded-md"
+                  onClick={() => {
+                    selectedCompo("Marka");
+                  }}
+                >
+                  Marka Oluştur
                 </li>
-                <li className="py-2 hover:bg-gray-600 rounded-md">
-                  Alt Grup Oluştur
-                </li>
-                <li className="py-2 hover:bg-gray-600 rounded-md">
+                <li
+                  className="py-2 hover:bg-gray-600 rounded-md"
+                  onClick={() => {
+                    selectedCompo("Urun");
+                  }}
+                >
                   Ürün Oluştur
                 </li>
               </ul>
             )}
-          </li>
-          <li className="group">
-            <div
-              className="flex items-center py-2 px-4 hover:bg-gray-700 rounded-xl cursor-pointer"
-              onClick={sirketMenu}
-            >
-              {mobileOpen ? (
-                <span>Şirket & Dükkan</span>
-              ) : (
-                <BusinessCenterIcon />
-              )}
-              <div className="ml-auto">
-                {sirketAc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-              </div>
-            </div>
-            {sirketAc && (
-              <ul className="pl-4">
-                <li className="py-2 hover:bg-gray-600 rounded-md">
-                  Şirket Oluştur
-                </li>
-              </ul>
-            )}
-          </li>
-          <li className="py-2 px-4 hover:bg-gray-700 rounded-xl">
-            {mobileOpen ? <span>Siparişler</span> : <ShoppingCartIcon />}
-          </li>
-          <li className="py-2 px-4 hover:bg-gray-700 rounded-xl">
-            {mobileOpen ? <span>Raporlar</span> : <BarChartIcon />}
           </li>
         </ul>
       </div>
