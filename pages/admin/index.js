@@ -1,18 +1,24 @@
+import AdminHeader from "@/components/AdminHeader";
 import AdminSidebar from "@/components/AdminSidebar";
-import MarkaOlustur from "@/components/UrunIslemler/MarkaOlustur";
+
+import UrunOlustur from "@/components/UrunIslemler/UrunOlustur";
+import { Divider } from "@mui/material";
 import { useState, useEffect } from "react";
 export default function index() {
   const [selectedCompo, setSelectedCompo] = useState("");
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex flex-auto overflow-hidden h-screen gap-4">
+      <div className=" sticky top-0 z-50 bg-white">
+        <AdminHeader />
+        <Divider />
+      </div>
+      <div className="flex flex-auto overflow-hidden  gap-1">
         <div className="w-52">
           <AdminSidebar selectedCompo={setSelectedCompo} />
         </div>
 
-        <div className="w-full overflow-y-auto">
-          {selectedCompo === "Marka" && <MarkaOlustur />}
-          {selectedCompo === "Urun" && <div></div>}
+        <div className="w-full ">
+          {selectedCompo === "Urun" && <UrunOlustur />}
         </div>
       </div>
     </div>

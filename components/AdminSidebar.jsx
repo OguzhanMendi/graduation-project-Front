@@ -49,14 +49,6 @@ export default function AdminSidebar({ selectedCompo }) {
                 <li
                   className="py-2 hover:bg-gray-600 rounded-md"
                   onClick={() => {
-                    selectedCompo("Marka");
-                  }}
-                >
-                  Marka Oluştur
-                </li>
-                <li
-                  className="py-2 hover:bg-gray-600 rounded-md"
-                  onClick={() => {
                     selectedCompo("Urun");
                   }}
                 >
