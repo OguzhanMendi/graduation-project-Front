@@ -78,6 +78,7 @@ export default function Markalar() {
         {brands.map((brand, index) => (
           <a
             key={index}
+            // Burda şu düzeltilicek şöyle yap.
             className="flex-none hover:text-blue-900 hover:cursor-pointer space-y-1"
           >
             <div className="w-20 h-20 flex items-center justify-center overflow-hidden rounded-full bg-white shadow-md">

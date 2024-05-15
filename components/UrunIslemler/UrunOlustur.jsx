@@ -1,13 +1,37 @@
-import { TextField, Autocomplete, ButtonGroup, Button } from "@mui/material";
+import {
+  TextField,
+  Autocomplete,
+  ButtonGroup,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogActions,
+} from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import UpdateIcon from "@mui/icons-material/Update";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function UrunOlustur() {
   const [kategori, setKategori] = useState("");
+  const [updatekategori, setUpdateKategori] = useState("");
+
   const [marka, setMarka] = useState("");
   const [secilenOzellik, setSecilenOzellik] = useState();
+  const [updateSecilenOzellik, setUpdateSecilenOzellik] = useState();
+
   const [dosya, setDosya] = useState(null);
   const [urunler, setUrunler] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const dialogAc = () => {
+    setOpen(true);
+  };
+
+  const dialogKapat = () => {
+    setOpen(false);
+  };
 
   const handleDosyaSecimi = (event) => {
     const dosya = event.target.files[0];
@@ -16,6 +40,10 @@ export default function UrunOlustur() {
   const ozellikSecClick = (ozellik) => {
     setSecilenOzellik(ozellik);
     setForm({ ...form, urunozellik: ozellik });
+  };
+  const UpdateozellikSecClick = (ozellik) => {
+    setUpdateSecilenOzellik(ozellik);
+    setUpdateForm({ ...updateForm, urunozellik: ozellik });
   };
   const kategoriler = [
     {
@@ -98,6 +126,18 @@ export default function UrunOlustur() {
     urunKdv: 0,
     image: "",
   });
+  const [updateForm, setUpdateForm] = useState({
+    id: 0,
+    urunAd: "",
+    urunAciklama: "",
+    urunMarka: "",
+    urunKategori: "",
+    urunozellik: "",
+    urunAdet: 0,
+    urunFiyat: 0,
+    urunKdv: 0,
+    image: "",
+  });
 
   const urunOlusturService = async () => {
     try {
@@ -140,6 +180,48 @@ export default function UrunOlustur() {
     }
   };
 
+  const urunUpdateService = async (id) => {
+    try {
+      debugger;
+      const formData = new FormData();
+      formData.append("id", updateForm.id);
+      formData.append("urunAd", updateForm.urunAd);
+      formData.append("urunAciklama", updateForm.urunAciklama);
+      formData.append("urunMarka", marka);
+      formData.append("urunKategori", updatekategori);
+      formData.append("urunozellik", updateForm.urunozellik);
+      formData.append("urunAdet", updateForm.urunAdet);
+      formData.append("urunFiyat", updateForm.urunFiyat);
+      formData.append("urunKdv", updateForm.urunKdv);
+      formData.append("image", dosya);
+
+      const response = await axios.post(
+        `https://localhost:7257/Urun/urunUpdate?urunAd=${
+          formData.urunAd
+        }&urunAciklama=${formData.urunAciklama}&urunMarka=${
+          formData.urunMarka
+        }&urunKategori=${formData.urunKategori}&urunozellik=${
+          formData.urunozellik
+        }&urunAdet=${formData.urunAdet}&urunFiyat=${
+          formData.urunFiyat
+        }&urunKdv=${formData.urunKdv}&imgUrl=${"1"}&aktif=${true}`,
+        formData,
+        {
+          headers: {
+            headers: { Accept: "*/*", "Content-Type": "multipart/form-data" },
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        temizleForm();
+        urunList();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const urunList = async () => {
     const response = await axios.post(
       "https://localhost:7257/Urun/urunler",
@@ -153,14 +235,227 @@ export default function UrunOlustur() {
 
     if (response.status === 200) {
       setUrunler(response?.data);
+      setUpdateKategori(response.data.urunMarka);
     }
+  };
+
+  const urunBulService = async (id) => {
+    debugger;
+    try {
+      const response = await axios.get(
+        `https://localhost:7257/Urun/urunBul?id=${id}`,
+        {
+          headers: {
+            headers: { Accept: "*/*", "Content-Type": "appilcation/json" },
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setUpdateForm(response.data);
+        setUpdateSecilenOzellik(response?.data?.secilenozellik);
+        setUpdateKategori(response?.data?.urunKategori);
+        setMarka(response?.data?.urunMarka);
+      }
+    } catch (err) {}
+  };
+
+  const urunSilService = async (id) => {
+    debugger;
+    try {
+      const response = await axios.post(
+        `https://localhost:7257/Urun/urunSil?id=${id}`,
+        {
+          headers: {
+            headers: { Accept: "*/*", "Content-Type": "appilcation/json" },
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        urunList();
+      }
+    } catch (err) {}
   };
 
   useEffect(() => {
     urunList();
   }, []);
+
   return (
     <div className=" h-full flex  gap-2 p-1 ">
+      <Dialog open={open} onClose={dialogKapat} fullWidth>
+        <DialogTitle
+          className="text-center"
+          style={{ background: "#2196f3", color: "#fff" }}
+        >
+          Ürün Güncelle
+        </DialogTitle>
+
+        <div className="flex flex-col gap-3 p-3 ">
+          <TextField
+            id="outlined-basic"
+            label="Ürün Adı"
+            variant="outlined"
+            className="w-full"
+            value={updateForm.urunAd}
+            onChange={(e) => {
+              setUpdateForm({ ...updateForm, urunAd: e.target.value });
+            }}
+          />
+          <TextField
+            id="outlined-multiline-flexible"
+            label="Ürün Açıklaması"
+            multiline
+            maxRows={5}
+            variant="outlined"
+            className="w-full"
+            value={updateForm.urunAciklama}
+            onChange={(e) => {
+              setUpdateForm({ ...updateForm, urunAciklama: e.target.value });
+            }}
+          />
+          <div className="w-full">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleDosyaSecimi}
+              className="hidden"
+              id="dosyaSec"
+            />
+            <label htmlFor="dosyaSec">
+              <Button
+                variant="outlined"
+                component="span"
+                color="primary"
+                size="large"
+                fullWidth
+              >
+                Resim Seç
+              </Button>
+            </label>
+            {dosya && <span className="ml-2">{dosya.name}</span>}
+          </div>
+          <TextField
+            id="outlined-number"
+            label="Adet"
+            type="number"
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+            className="w-full"
+            value={updateForm.urunAdet}
+            onChange={(e) => {
+              setUpdateForm({ ...updateForm, urunAdet: e.target.value });
+            }}
+          />
+          <div className="flex gap-3">
+            <TextField
+              id="outlined-number"
+              label="Ürün Fiyatı"
+              type="number"
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+              className="w-full"
+              value={updateForm.urunFiyat}
+              onChange={(e) => {
+                setUpdateForm({ ...updateForm, urunFiyat: e.target.value });
+              }}
+            />
+            <TextField
+              id="outlined-number"
+              label="Ürün KDV"
+              type="number"
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+              className="w-full"
+              value={updateForm.urunKdv}
+              onChange={(e) => {
+                setUpdateForm({ ...updateForm, urunKdv: e.target.value });
+              }}
+            />
+          </div>
+          <Autocomplete
+            id="combo-box-demo"
+            options={Markalar}
+            getOptionLabel={(option) => option.name}
+            renderInput={(params) => (
+              <TextField {...params} label="Marka" variant="outlined" />
+            )}
+            className="w-full"
+            value={marka?.name}
+            onChange={(e, selectedOption) => {
+              if (selectedOption) {
+                setMarka(selectedOption.name);
+              } else {
+                setMarka(null); // Seçili bir kategori yoksa null olarak ayarlayın
+              }
+            }}
+          />
+
+          <Autocomplete
+            id="combo-box-demo"
+            options={kategoriler}
+            getOptionLabel={(option) => option.ad}
+            renderInput={(params) => (
+              <TextField {...params} label="Kategori" variant="outlined" />
+            )}
+            className="w-full"
+            value={updatekategori?.ad}
+            onChange={(e, selectedOption) => {
+              if (selectedOption) {
+                setUpdateKategori(selectedOption.ad);
+              } else {
+                setUpdateKategori(null); // Seçili bir kategori yoksa null olarak ayarlayın
+              }
+            }}
+          />
+          {updatekategori && (
+            <div className="w-full mt-3">
+              <h3 className="text-lg font-semibold mb-2">
+                Özellik Seçin: {updateSecilenOzellik}
+              </h3>
+              <ButtonGroup
+                variant="contained"
+                className="flex flex-wrap gap-3"
+                style={{ overflow: "auto", whiteSpace: "nowrap" }}
+              >
+                {kategoriler
+                  .find((a) => a.ad === updatekategori)
+                  ?.özellik?.map((ozellik) => (
+                    <Button
+                      key={ozellik}
+                      className={` hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}
+                      onClick={() => {
+                        UpdateozellikSecClick(ozellik);
+                      }}
+                    >
+                      {ozellik}
+                    </Button>
+                  ))}
+              </ButtonGroup>
+            </div>
+          )}
+        </div>
+
+        <DialogContent style={{ background: "#f0f0f0" }}>
+          <div className="flex flex-col gap-3 p-3"></div>
+        </DialogContent>
+        <DialogActions style={{ background: "#f0f0f0" }}>
+          <Button variant="contained" color="error" onClick={dialogKapat}>
+            Kapat
+          </Button>
+          <Button
+            variant="contained"
+            style={{ background: "#4caf50", color: "#fff" }}
+            onClick={() => {
+              urunUpdateService(updateForm.id);
+              dialogKapat();
+            }}
+          >
+            Güncelle
+          </Button>
+        </DialogActions>
+      </Dialog>
       <div className="w-1/5 flex flex-col items-center gap-3 p-3 bg-gray-100 border rounded-lg shadow-md  ">
         <h1 className="font-semibold animate-bounce">ÜRÜN OLUŞTURMA FORMU</h1>
 
@@ -422,11 +717,25 @@ export default function UrunOlustur() {
 
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex gap-3">
-                    <Button variant="contained">Güncelle</Button>
-                    <Button variant="contained" color="success">
-                      Stok Güncelle
+                    <Button
+                      variant="contained"
+                      startIcon={<UpdateIcon />}
+                      onClick={() => {
+                        dialogAc();
+                        urunBulService(urun.id);
+                      }}
+                    >
+                      Güncelle
                     </Button>
-                    <Button variant="contained" color="error">
+
+                    <Button
+                      variant="contained"
+                      color="error"
+                      startIcon={<DeleteIcon />}
+                      onClick={() => {
+                        urunSilService(urun.id);
+                      }}
+                    >
                       SİL
                     </Button>
                   </div>
