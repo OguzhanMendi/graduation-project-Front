@@ -421,13 +421,15 @@ export default function UrunOlustur() {
                 <td className="px-6 py-4 whitespace-nowrap">{urun.urunKdv}</td>
 
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <Button variant="contained">Güncelle</Button>
-                  <Button variant="contained" color="success">
-                    Stok Güncelle
-                  </Button>
-                  <Button variant="contained" color="error">
-                    SİL
-                  </Button>
+                  <div className="flex gap-3">
+                    <Button variant="contained">Güncelle</Button>
+                    <Button variant="contained" color="success">
+                      Stok Güncelle
+                    </Button>
+                    <Button variant="contained" color="error">
+                      SİL
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))}
