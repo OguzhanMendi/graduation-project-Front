@@ -2,27 +2,19 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 
-export default function Detay() {
-  const [quantity, setQuantity] = useState(1);
+export default function Detay({ urun }) {
+  const [adet, setAdet] = useState(1);
   const [color, setColor] = useState("black"); // Renk seçeneği
   const [storage, setStorage] = useState("128gb"); // Depolama seçeneği
 
-  const handleIncrement = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+  const handleArttir = () => {
+    setAdet((prevQuantity) => prevQuantity + 1);
   };
 
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity((prevQuantity) => prevQuantity - 1);
+  const handleAzalt = () => {
+    if (adet > 1) {
+      setAdet((prevQuantity) => prevQuantity - 1);
     }
-  };
-
-  const handleColorChange = (event) => {
-    setColor(event.target.value);
-  };
-
-  const handleStorageChange = (event) => {
-    setStorage(event.target.value);
   };
 
   return (
@@ -31,7 +23,7 @@ export default function Detay() {
         <div className="w-1/2 flex justify-center">
           <div className="relative w-full max-w-md">
             <img
-              src="/ip-15.jpg"
+              src={`https://localhost:7257/Urun/${urun?.imgUrl}`}
               alt="iPhone 15"
               className="w-full rounded-lg shadow-lg"
             />
@@ -39,14 +31,32 @@ export default function Detay() {
         </div>
         <div className="w-1/2 p-6">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">İPHONE 15</h1>
-            <p className="text-lg text-gray-700">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-              vulputate justo eget urna iaculis, in laoreet quam vestibulum.
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              {urun?.urunAd}
+            </h1>
+            <p
+              className="text-lg text-gray-700 items-center"
+              style={{ textAlign: "justify" }}
+            >
+              {urun?.urunAciklama}
             </p>
           </div>
-          <div className="flex justify-center items-center mb-6">
-            <span className="text-gray-800 mr-2">Rating:</span>
+          <div className="flex gap-5  justify-center items-center mt-2 mb-3">
+            <div>
+              <span className="text-gray-800 mr-2 font-semibold">Marka:</span>
+              <span className="text-gray-700 font-semibold">
+                {urun?.urunMarka}
+              </span>
+            </div>
+            <div>
+              <span className="text-gray-800 mr-2 font-semibold">Stok:</span>
+              <span className="text-gray-700 font-semibold">
+                {urun?.urunAdet}
+              </span>
+            </div>
+          </div>
+          <div className="flex justify-center items-center mb-3">
+            <span className="text-gray-800 mr-2">Puan:</span>
             <div className="flex items-center">
               <svg
                 className="h-5 w-5 text-yellow-500"
@@ -65,74 +75,52 @@ export default function Detay() {
           <div className="flex justify-center items-center mb-6">
             <span className="text-gray-800 mr-2">Adet:</span>
             <Button
-              onClick={handleDecrement}
+              onClick={handleAzalt}
               variant="contained"
               color="secondary"
               size="small"
+              sx={{
+                borderRadius: "10rem",
+              }}
             >
               <Remove />
             </Button>
-            <span className="bg-gray-200 px-3 py-1">{quantity}</span>
+            <span className="bg-gray-200 px-3 py-1 rounded-xl font-semibold">
+              {adet}
+            </span>
             <Button
-              onClick={handleIncrement}
+              onClick={handleArttir}
               variant="contained"
               color="secondary"
               size="small"
+              sx={{
+                borderRadius: "10rem",
+              }}
             >
               <Add />
             </Button>
           </div>
           <div className="flex flex-col justify-center items-center mb-6">
-            <span className="text-gray-800 mb-2">Ürün özellikleri:</span>
-            <div className="flex items-center mb-2">
-              <span className="mr-2">Renk:</span>
-              <div className="flex">
-                <div
-                  className="w-4 h-4 rounded-full bg-black border border-gray-300 mr-2 cursor-pointer"
-                  onClick={() => setColor("black")}
-                ></div>
-                <div
-                  className="w-4 h-4 rounded-full bg-silver border border-gray-300 mr-2 cursor-pointer"
-                  onClick={() => setColor("silver")}
-                ></div>
-                <div
-                  className="w-4 h-4 rounded-full bg-gold border border-gray-300 mr-2 cursor-pointer"
-                  onClick={() => setColor("gold")}
-                ></div>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <span className="mr-2">Depolama:</span>
-              <div className="flex">
-                <div
-                  className={`border border-gray-300 rounded-md px-2 py-1 mr-2 cursor-pointer ${
-                    storage === "128gb" && "bg-gray-200"
-                  }`}
-                  onClick={() => setStorage("128gb")}
-                >
-                  128GB
-                </div>
-                <div
-                  className={`border border-gray-300 rounded-md px-2 py-1 mr-2 cursor-pointer ${
-                    storage === "256gb" && "bg-gray-200"
-                  }`}
-                  onClick={() => setStorage("256gb")}
-                >
-                  256GB
-                </div>
-                <div
-                  className={`border border-gray-300 rounded-md px-2 py-1 mr-2 cursor-pointer ${
-                    storage === "512gb" && "bg-gray-200"
-                  }`}
-                  onClick={() => setStorage("512gb")}
-                >
-                  512GB
+            <div className="flex gap-5 justify-center items-center">
+              <span className="text-gray-800">Ürün özellikleri:</span>
+
+              <div className="flex items-center">
+                {/* <span className="mr-2">Depolama:</span> */}
+                <div className="flex">
+                  <div
+                    className={`border border-gray-300 rounded-md px-2 py-1 mr-2 cursor-pointer ${
+                      storage === "128gb" && "bg-gray-200"
+                    }`}
+                    onClick={() => setStorage("128gb")}
+                  >
+                    {urun?.urunozellik}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="flex justify-center">
-            <Button variant="contained" color="primary" size="large">
+            <Button variant="contained" color="primary" size="large" fullWidth>
               Sepete Ekle
             </Button>
           </div>

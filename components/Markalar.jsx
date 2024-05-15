@@ -8,7 +8,7 @@ export default function Markalar() {
     { name: "Puma", logo: "/puma.png" },
     { name: "Adidas", logo: "/Adidas.png" },
     { name: "Nike", logo: "/nikee.jpg" },
-    { name: "iPhone", logo: "/iphone.jpg" },
+    { name: "Apple", logo: "/iphone.jpg" },
     { name: "Samsung", logo: "/samsung logo.png" },
     { name: "Vestel", logo: "/vestel.png" },
     { name: "Bosch", logo: "/bosch.png" },

@@ -63,32 +63,39 @@ export default function CokSatanlar({ urunler, baslik }) {
               >
                 <Link href={`/${urun.id}`} passHref>
                   <Card
-                    sx={{ maxWidth: 220 }}
-                    className={`overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-lg hover:border-transparent cursor-pointer p-2 mb-2 ${
-                      baslik === "Popüler Ürünler" ? "bg-red-50" : ""
-                    } ${baslik === "Çok Satanlar" ? "bg-green-100" : ""} ${
-                      baslik === "Bu Ay Herkes Peşinde" ? "bg-slate-50" : ""
-                    }`}
+                    sx={{
+                      maxWidth: 220,
+                      backgroundColor:
+                        baslik === "Popüler Ürünler"
+                          ? "#E5F3FF"
+                          : baslik === "Çok Satanlar"
+                          ? "#E0F7FA"
+                          : baslik === "Bu Ay Herkes Peşinde"
+                          ? "#E8EAF6"
+                          : "#FFFFFF",
+                    }}
+                    className={`overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-lg hover:border-transparent cursor-pointer p-2 mb-2`}
                   >
                     <CardMedia
-                      sx={{ height: 100 }}
-                      image={urun.ImgUrl}
+                      sx={{ height: 200 }}
+                      // image={urun.ImgUrl}
+                      image={`https://localhost:7257/Urun/${urun.imgUrl}`}
                       title="Ürün Resmi"
                     />
                     <CardContent className="text-center">
                       <Typography gutterBottom variant="h5" component="div">
-                        {urun.ad}
+                        {urun.urunAd}
                       </Typography>
                       <Typography
                         variant="body2"
                         color="text.primary"
                         className="mb-2 line-clamp-2"
                       >
-                        {urun.aciklama}
+                        {urun.urunAciklama}
                       </Typography>
                       <Rating
                         name="read-only"
-                        value={urun.puan}
+                        value={2}
                         readOnly
                         className="mb-2"
                       />
@@ -98,7 +105,7 @@ export default function CokSatanlar({ urunler, baslik }) {
                           color="text.secondary"
                           className="line-through mb-2"
                         >
-                          {urun.fiyat} TL
+                          {urun.urunFiyat} TL
                         </Typography>
                       ) : (
                         <Typography
@@ -106,7 +113,7 @@ export default function CokSatanlar({ urunler, baslik }) {
                           color="text.secondary"
                           className="mb-2"
                         >
-                          {urun.fiyat} TL
+                          {urun.urunFiyat} TL
                         </Typography>
                       )}
                       {urun.indirim && (

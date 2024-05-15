@@ -6,8 +6,18 @@ import { Divider } from "@mui/material";
 import { BsArrowUp } from "react-icons/bs";
 
 import { useState, useEffect, useRef } from "react";
+import axios from "axios";
 
 export default function Home() {
+  useEffect(() => {
+    cokSatanListService();
+    popListService();
+    herkesPListService();
+  }, []);
+  const [cokSatanData, setCokSataData] = useState([{}]);
+  const [popData, setPopData] = useState([{}]);
+  const [HerkesPesindeData, setHerkesPesindeData] = useState([{}]);
+
   const urunler = [
     {
       ad: "İphone 15",
@@ -568,6 +578,61 @@ export default function Home() {
     };
   }, []);
 
+  ////////************ ============================= */
+
+  const cokSatanListService = async () => {
+    debugger;
+    try {
+      const response = await axios.get(
+        `https://localhost:7257/Urun/mainUrunler`,
+        {
+          headers: {
+            headers: { Accept: "*/*", "Content-Type": "application/json" },
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setCokSataData(response?.data);
+      }
+    } catch (err) {}
+  };
+
+  const popListService = async () => {
+    debugger;
+    try {
+      const response = await axios.get(
+        `https://localhost:7257/Urun/mainUrunler`,
+        {
+          headers: {
+            headers: { Accept: "*/*", "Content-Type": "application/json" },
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setPopData(response?.data);
+      }
+    } catch (err) {}
+  };
+  const herkesPListService = async () => {
+    debugger;
+    try {
+      const response = await axios.get(
+        `https://localhost:7257/Urun/mainUrunler`,
+        {
+          headers: {
+            headers: { Accept: "*/*", "Content-Type": "application/json" },
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setHerkesPesindeData(response?.data);
+      }
+    } catch (err) {}
+  };
+
   return (
     <>
       <div className="flex flex-col ">
@@ -584,14 +649,14 @@ export default function Home() {
           <Textbar />
         </div>
         <div className="flex  justify-center">
-          <CokSatanlar urunler={urunler} baslik={coksatan} />
+          <CokSatanlar urunler={cokSatanData} baslik={coksatan} />
         </div>
 
         <div className="flex  justify-center">
-          <CokSatanlar urunler={popUrunler} baslik={popbasik} />
+          <CokSatanlar urunler={popData} baslik={popbasik} />
         </div>
         <div className="flex  justify-center">
-          <CokSatanlar urunler={popUrunler} baslik={buAyBaslik} />
+          <CokSatanlar urunler={HerkesPesindeData} baslik={buAyBaslik} />
         </div>
 
         {/* Sayfanın en üstüne dön butonu */}

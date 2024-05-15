@@ -38,10 +38,22 @@ export default function Header() {
   const email = user?.user.email;
   const username = email ? email.split("@")[0] : "";
 
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    debugger;
+    let searchs = localStorage.getItem("search");
+    setSearch(searchs);
+  }, []);
   return (
     <>
       <div className="w-full  flex  justify-center gap-10 p-1  items-center ">
-        <Link href="/">
+        <Link
+          href="/"
+          onClick={() => {
+            localStorage.removeItem("search");
+          }}
+        >
           <div>
             <Image src={Logo} width={80} className="rounded-2xl" />
           </div>
@@ -58,13 +70,22 @@ export default function Header() {
               style: {
                 borderRadius: "1000px",
               },
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
+              endAdornment: (
+                <InputAdornment position="end" className="cursor-pointer">
+                  <SearchIcon
+                    onClick={() => {
+                      router.push(`/sr?search=${search}`);
+                      localStorage.setItem("search", search);
+                    }}
+                  />
                 </InputAdornment>
               ),
             }}
             size="small"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
           />
         </div>
         {user?.user?.email ? (

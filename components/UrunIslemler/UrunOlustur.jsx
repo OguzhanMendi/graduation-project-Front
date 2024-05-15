@@ -84,7 +84,7 @@ export default function UrunOlustur() {
     { id: 1, name: "Puma" },
     { id: 2, name: "Adidas" },
     { id: 3, name: "Nike" },
-    { id: 4, name: "iPhone" },
+    { id: 4, name: "Apple" },
     { id: 5, name: "Samsung" },
     { id: 6, name: "Vestel" },
     { id: 7, name: "Bosch" },
