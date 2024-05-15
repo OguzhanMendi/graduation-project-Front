@@ -383,6 +383,12 @@ export default function UrunOlustur() {
               >
                 KDV
               </th>
+              <th
+                scope="col"
+                className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                İşlemler
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -396,7 +402,8 @@ export default function UrunOlustur() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">{urun.urunAd}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {urun.urunAciklama}
+                  {urun.urunAciklama.slice(0, 10)}
+                  <a href="#">....</a>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {urun.urunMarka}
@@ -412,6 +419,16 @@ export default function UrunOlustur() {
                   {urun.urunFiyat}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">{urun.urunKdv}</td>
+
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <Button variant="contained">Güncelle</Button>
+                  <Button variant="contained" color="success">
+                    Stok Güncelle
+                  </Button>
+                  <Button variant="contained" color="error">
+                    SİL
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>
