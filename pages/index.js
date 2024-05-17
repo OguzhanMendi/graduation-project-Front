@@ -7,6 +7,7 @@ import { BsArrowUp } from "react-icons/bs";
 
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import MainFooter from "@/components/MainFooter";
 
 export default function Home() {
   useEffect(() => {
@@ -634,9 +635,51 @@ export default function Home() {
   };
 
   return (
+    // <>
+    //   <div className="flex flex-col ">
+    //     <div className=" sticky top-0 z-50 bg-white">
+    //       <Header />
+    //     </div>
+    //     <div>
+    //       <Divider />
+    //     </div>
+    //     <div className="flex justify-center">
+    //       <Markalar />
+    //     </div>
+
+    //     <div className="flex justify-center">
+    //       <Textbar />
+    //     </div>
+    //     <div className="flex  justify-center">
+    //       <CokSatanlar urunler={cokSatanData} baslik={coksatan} />
+    //     </div>
+
+    //     <div className="flex  justify-center">
+    //       <CokSatanlar urunler={popData} baslik={popbasik} />
+    //     </div>
+    //     <div className="flex  justify-center">
+    //       <CokSatanlar urunler={HerkesPesindeData} baslik={buAyBaslik} />
+    //     </div>
+
+    //     {/* Sayfanın en üstüne dön butonu */}
+    //     {scrolButonGoster && (
+    //       <div className="fixed bottom-10 right-10 z-50">
+    //         <button
+    //           onClick={scrollUst}
+    //           className="bg-gray-800 text-white rounded-full p-2 hover:bg-gray-900 transition duration-300"
+    //         >
+    //           <BsArrowUp className="text-2xl" />
+    //         </button>
+    //       </div>
+    //     )}
+    //   </div>
+    //   <div className="absolute bottom-0  bg-white">
+    //     <Footer />
+    //   </div>
+    // </>
     <>
-      <div className="flex flex-col ">
-        <div className=" sticky top-0 z-50 bg-white">
+      <div className="flex flex-col min-h-screen">
+        <div className="sticky top-0 z-50 bg-white">
           <Header />
         </div>
         <div>
@@ -648,14 +691,13 @@ export default function Home() {
         <div className="flex justify-center">
           <Textbar />
         </div>
-        <div className="flex  justify-center">
+        <div className="flex justify-center">
           <CokSatanlar urunler={cokSatanData} baslik={coksatan} />
         </div>
-
-        <div className="flex  justify-center">
+        <div className="flex justify-center">
           <CokSatanlar urunler={popData} baslik={popbasik} />
         </div>
-        <div className="flex  justify-center">
+        <div className="flex justify-center">
           <CokSatanlar urunler={HerkesPesindeData} baslik={buAyBaslik} />
         </div>
 
@@ -670,6 +712,13 @@ export default function Home() {
             </button>
           </div>
         )}
+
+        {/* İçeriğin geri kalan kısmı esneyerek alt bilgiyi aşağı iter */}
+        <div className="flex-grow"></div>
+
+        <div className="mt-5">
+          <MainFooter />
+        </div>
       </div>
     </>
   );

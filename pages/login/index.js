@@ -98,13 +98,14 @@ const Index = () => {
     );
 
     if (response.status === 200) {
-      const { email, sifre, rol } = response.data;
+      const { email, sifre, rol, id } = response.data;
       dispatch({
         type: "LOGIN",
         payload: {
           email,
           sifre,
           rol,
+          id,
         },
       });
       Cookie.set("user_token", response.data.token, { expires: 1 });

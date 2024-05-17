@@ -1,11 +1,20 @@
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, Snackbar, Alert } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
+import { apiFormatter } from "@/utils/DateFormatter";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-export default function Detay({ urun }) {
+export default function Detay({ urun, onSepeteEkle }) {
+  const user = useSelector((state) => state.user);
   const [adet, setAdet] = useState(1);
+  const [open, setOpen] = useState(false);
   const [color, setColor] = useState("black"); // Renk seçeneği
   const [storage, setStorage] = useState("128gb"); // Depolama seçeneği
+  const [toplamTutar, setToplamTutar] = useState();
 
   const handleArttir = () => {
     setAdet((prevQuantity) => prevQuantity + 1);
@@ -14,6 +23,51 @@ export default function Detay({ urun }) {
   const handleAzalt = () => {
     if (adet > 1) {
       setAdet((prevQuantity) => prevQuantity - 1);
+    }
+  };
+
+  const snackAc = () => {
+    setOpen(true);
+  };
+  const snackKapat = () => {
+    setOpen(false);
+  };
+
+  const sepeteEkleService = async () => {
+    debugger;
+
+    const date = Date.now();
+    const trh = apiFormatter(date);
+    const hesaplananToplamTutar = adet * urun.urunFiyat;
+    try {
+      const reqBody = JSON.stringify({
+        urunAd: urun?.urunAd,
+        urunAdet: adet,
+        urunFiyat: urun?.urunFiyat,
+        toplamTutar: hesaplananToplamTutar,
+        imgUrl: urun?.imgUrl,
+        tarih: trh,
+        siparisId: "",
+        urunId: urun?.id,
+      });
+
+      const response = await axios.post(
+        `https://localhost:7257/Sepet/SepeteEkle`,
+        reqBody,
+        {
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        snackAc();
+        onSepeteEkle(adet);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -120,12 +174,45 @@ export default function Detay({ urun }) {
             </div>
           </div>
           <div className="flex justify-center">
-            <Button variant="contained" color="primary" size="large" fullWidth>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              fullWidth
+              onClick={() => {
+                sepeteEkleService();
+              }}
+            >
               Sepete Ekle
             </Button>
           </div>
         </div>
       </div>
+
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={snackKapat}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        sx={{ transition: "all 0.3s ease-in-out" }}
+      >
+        <Alert
+          onClose={snackKapat}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%", display: "flex", alignItems: "center" }}
+          icon={<CheckCircleIcon fontSize="inherit" />}
+        >
+          Sepete Eklendi
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={snackKapat}
+            sx={{ marginLeft: "auto" }}
+          ></IconButton>
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

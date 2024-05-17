@@ -6,6 +6,7 @@ import UrunCard from "@/components/UrunCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Filter from "./Components/Filter";
+import MainFooter from "@/components/MainFooter";
 
 export default function index() {
   const urunler = [
@@ -84,12 +85,27 @@ export default function index() {
   ];
 
   const [urunData, setUrunData] = useState([{}]);
-
+  const [seciliFiltreler, setSeciliFiltreler] = useState([]);
+  const [seciliKategoriler, setSeciliKategoriler] = useState([]);
+  const [seciliBedenler, setSeciliBedenler] = useState([]);
+  const search = localStorage.getItem("search");
   const urunlerListService = async () => {
+    debugger;
+    const reqBody = JSON.stringify({
+      search: search,
+      search1: seciliFiltreler[0] || "",
+      search2: seciliFiltreler[1] || "",
+      search3: seciliFiltreler[2] || "",
+      search4: "",
+      search5: "",
+      search6: "",
+      search7: "",
+      search8: "",
+    });
     try {
       const response = await axios.post(
-        "https://localhost:7257/Urun/urunler",
-        null,
+        "https://localhost:7257/Urun/urunArama",
+        reqBody,
         {
           headers: {
             Accept: "*/*",
@@ -108,7 +124,12 @@ export default function index() {
 
   useEffect(() => {
     urunlerListService();
-  }, []);
+  }, [search]);
+
+  useEffect(() => {
+    urunlerListService();
+  }, [seciliFiltreler]);
+
   return (
     <>
       <div className="flex flex-col justify-center gap-1">
@@ -117,14 +138,20 @@ export default function index() {
           <Header />
         </div>
         {/* FİLTRE EKRANI SOLDA SABİT */}
-        <div className="  flex justify-center">
+        <div className="  flex justify-center gap-3">
           <div className="sticky top-20  h-screen  bg-gray-100">
-            <Filter />
+            <Filter
+              seciliFiltreler={seciliFiltreler}
+              setSeciliFiltreler={setSeciliFiltreler}
+            />
           </div>
           {/* ÜRÜN KARTLARI */}
           <div className="">
             <UrunCard urunler={urunData} />
           </div>
+        </div>
+        <div className=" w-full  bottom-0 mt-16">
+          <MainFooter />
         </div>
       </div>
     </>

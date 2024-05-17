@@ -3,6 +3,7 @@ const initialState = {
     email: "",
     sifre: "",
     rol: "",
+    id: "",
   },
 };
 
@@ -18,6 +19,7 @@ const userReducer = (state = initialState, action) => {
           email: "",
           sifre: "",
           rol: "",
+          id: "",
         },
       };
 

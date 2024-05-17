@@ -5,6 +5,7 @@ import CokSatanlar from "@/components/CokSatanlar";
 import { usePathname } from "next/navigation";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import MainFooter from "@/components/MainFooter";
 
 export default function index() {
   const [urun, setUrun] = useState();
@@ -102,19 +103,30 @@ export default function index() {
     },
   ];
   const baslik = "Benzer Ürünler";
+
+  const [sepetAdet, setSepetAdet] = useState(0);
+
+  const handleSepeteEkle = (adet) => {
+    setSepetAdet(adet);
+  };
+
   return (
     <div className="flex flex-col">
       <div className=" sticky top-0 z-50 bg-white">
-        <Header />
+        <Header sepetAdet={sepetAdet} />
       </div>
       <div>
         <Divider />
       </div>
       <div className="">
-        <Detay urun={urun} />
+        <Detay urun={urun} onSepeteEkle={handleSepeteEkle} />
       </div>
       <div className="mt-3 flex  justify-center">
         <CokSatanlar urunler={benzerUrunlerData} baslik={baslik} />
+      </div>
+
+      <div className=" w-full  bottom-0 mt-5">
+        <MainFooter />
       </div>
     </div>
   );

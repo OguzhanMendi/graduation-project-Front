@@ -13,14 +13,14 @@ import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-
+import HistoryIcon from "@mui/icons-material/History";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useDispatch } from "react-redux";
 import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 
-export default function Header() {
+export default function Header({ sepetAdet }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -33,6 +33,11 @@ export default function Header() {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const enterSearch = () => {
+    router.push(`/sr?search=${search}`);
+    localStorage.setItem("search", search);
   };
 
   const email = user?.user.email;
@@ -86,6 +91,11 @@ export default function Header() {
             onChange={(e) => {
               setSearch(e.target.value);
             }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                enterSearch();
+              }
+            }}
           />
         </div>
         {user?.user?.email ? (
@@ -121,6 +131,17 @@ export default function Header() {
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
+                    router.push("/siparis");
+                  }}
+                >
+                  <ListItemIcon>
+                    <HistoryIcon fontSize="small" />{" "}
+                    {/* Geçmiş siparişler simgesi */}
+                  </ListItemIcon>
+                  <ListItemText primary="Geçmiş Siparişlerim" />
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
                     dispatch({
                       type: "LOGOUT",
                     });
@@ -145,13 +166,15 @@ export default function Header() {
             </div>
           </Link>
         )}
-
-        <div className="flex gap-1 items-center hover:text-blue-700 hover:cursor-pointer">
-          <span>
-            <ShoppingBasketIcon />
-          </span>
-          <span>Sepetim</span>
-        </div>
+        <Link href="/Sepet">
+          <div className="flex gap-1 items-center hover:text-blue-700 hover:cursor-pointer">
+            <span>
+              <ShoppingBasketIcon />
+              {sepetAdet !== 0 && <span>{sepetAdet}</span>}
+            </span>
+            <span>Sepetim</span>
+          </div>
+        </Link>
       </div>
     </>
   );

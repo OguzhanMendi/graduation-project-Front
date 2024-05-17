@@ -64,7 +64,7 @@ export default function CokSatanlar({ urunler, baslik }) {
                 <Link href={`/${urun.id}`} passHref>
                   <Card
                     sx={{
-                      maxWidth: 220,
+                      maxWidth: 250,
                       backgroundColor:
                         baslik === "Popüler Ürünler"
                           ? "#E5F3FF"
@@ -77,7 +77,7 @@ export default function CokSatanlar({ urunler, baslik }) {
                     className={`overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-lg hover:border-transparent cursor-pointer p-2 mb-2`}
                   >
                     <CardMedia
-                      sx={{ height: 200 }}
+                      sx={{ height: 220 }}
                       // image={urun.ImgUrl}
                       image={`https://localhost:7257/Urun/${urun.imgUrl}`}
                       title="Ürün Resmi"
