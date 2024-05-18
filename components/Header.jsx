@@ -170,7 +170,6 @@ export default function Header({ sepetAdet }) {
           <div className="flex gap-1 items-center hover:text-blue-700 hover:cursor-pointer">
             <span>
               <ShoppingBasketIcon />
-              {sepetAdet !== 0 && <span>{sepetAdet}</span>}
             </span>
             <span>Sepetim</span>
           </div>

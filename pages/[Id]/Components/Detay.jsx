@@ -65,6 +65,16 @@ export default function Detay({ urun, onSepeteEkle }) {
       if (response.status === 200) {
         snackAc();
         onSepeteEkle(adet);
+        // Ürün bazında localStorage'da adet güncellemesi yapalım
+        const mevcutSepet = JSON.parse(localStorage.getItem("sepet")) || {};
+        const mevcutUrun = mevcutSepet[urun.id] || { urunAdet: 0 };
+
+        // Mevcut adeti yeni eklenen adetle topla
+        mevcutUrun.urunAdet += adet;
+
+        // Güncellenmiş ürünü ve yeni sepeti LocalStorage'a kaydet
+        mevcutSepet[urun.id] = mevcutUrun;
+        localStorage.setItem("sepet", JSON.stringify(mevcutSepet));
       }
     } catch (err) {
       console.log(err);
