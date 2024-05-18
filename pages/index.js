@@ -8,6 +8,7 @@ import { BsArrowUp } from "react-icons/bs";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import MainFooter from "@/components/MainFooter";
+import ImgCard from "@/components/ImgCard";
 
 export default function Home() {
   useEffect(() => {
@@ -689,8 +690,12 @@ export default function Home() {
           <Markalar />
         </div>
         <div className="flex justify-center">
+          <ImgCard />
+        </div>
+        <div className="flex justify-center">
           <Textbar />
         </div>
+
         <div className="flex justify-center">
           <CokSatanlar urunler={cokSatanData} baslik={coksatan} />
         </div>

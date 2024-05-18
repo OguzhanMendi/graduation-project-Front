@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { Add, Remove, Delete } from "@mui/icons-material";
 import PersonIcon from "@mui/icons-material/Person";
 import { useSelector } from "react-redux";
@@ -12,13 +12,19 @@ export default function SepetDetay() {
   // Alışveriş sepetindeki ürünleri saklamak için state tanımla
   const [urunler, setUrunler] = useState([]);
   const [openprog, setOpenProg] = useState(false);
+  const [indkod, setIndkod] = useState("");
 
+  const [indkodData, setIndkodData] = useState("");
   // Alışveriş sepetinden ürünleri getiren fonksiyon
   const alisverisSepetiGetir = async () => {
     try {
+      const reqBody = JSON.stringify({
+        indKod: indkod || "",
+      });
+
       const response = await axios.post(
-        "https://localhost:7257/Sepet/SepetList",
-        null,
+        `https://localhost:7257/Sepet/SepetList`,
+        reqBody,
         {
           headers: {
             Accept: "*/*",
@@ -29,6 +35,8 @@ export default function SepetDetay() {
 
       if (response.status === 200) {
         setUrunler(response?.data);
+        const indirimKod = response?.data?.[0]?.indKod || "";
+        setIndkodData(indirimKod);
       }
     } catch (error) {
       console.error("Alışveriş sepeti verileri alınırken hata oluştu:", error);
@@ -91,6 +99,11 @@ export default function SepetDetay() {
   const user = useSelector((state) => state.user);
   const genelToplam = urunler.reduce(
     (total, item) => total + item.toplamTutar,
+    0
+  );
+
+  const indirimliGenelToplam = urunler.reduce(
+    (total, item) => total + item.indirimliTutar,
     0
   );
 
@@ -255,12 +268,43 @@ export default function SepetDetay() {
                     <h2 className="text-lg font-bold text-center mb-4">
                       Sipariş Özeti
                     </h2>
+                    <div className="flex gap-1">
+                      <TextField
+                        id="outlined-basic"
+                        label="İNDİRİM KODU"
+                        variant="outlined"
+                        value={indkod}
+                        onChange={(e) => {
+                          setIndkod(e.target.value);
+                        }}
+                      />
+                      <Button
+                        variant="contained"
+                        color="error"
+                        size="small"
+                        onClick={() => {
+                          alisverisSepetiGetir();
+                        }}
+                      >
+                        AKTİF ET
+                      </Button>
+                    </div>
                     <div className="flex justify-between items-center gap-1">
                       <span className="text-lg">Toplam Tutar:</span>
-                      <span className="text-lg font-bold text-red-700">
-                        {genelToplam}
-                      </span>
-                      <span> TL</span>
+                      {/* İndirim varsa indirimli genel toplamı göster */}
+                      {indkodData && (
+                        <Typography
+                          variant="body1"
+                          component="span"
+                          style={{ textDecoration: "line-through" }}
+                        >
+                          {genelToplam} TL
+                        </Typography>
+                      )}
+                      <Typography variant="body1" component="span">
+                        {/* İndirim varsa indirimli genel toplamı göster */}
+                        {indkodData ? indirimliGenelToplam : genelToplam} TL
+                      </Typography>
                     </div>
                     <Button
                       variant="contained"

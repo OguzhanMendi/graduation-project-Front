@@ -15,10 +15,10 @@ export default function Sepet() {
       <div>
         <SepetDetay />
       </div>
-
-      <div className=" w-full  bottom-0 mt-5">
+      {/* 
+      <div className="relative  w-full  bottom-0 mt-5">
         <MainFooter />
-      </div>
+      </div> */}
     </div>
   );
 }

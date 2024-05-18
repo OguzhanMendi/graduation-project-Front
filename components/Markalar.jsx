@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import Link from "next/link";
 
 export default function Markalar() {
   const brands = [
@@ -76,10 +77,13 @@ export default function Markalar() {
         className="flex  gap-6 items-center overflow-x-hidden py-2 pl-4 pr-8"
       >
         {brands.map((brand, index) => (
-          <a
+          <Link
             key={index}
-            // Burda şu düzeltilicek şöyle yap.
+            href={`/sr?search=${brand?.name}`}
             className="flex-none hover:text-blue-900 hover:cursor-pointer space-y-1"
+            onClick={() => {
+              localStorage.setItem("search", brand?.name);
+            }}
           >
             <div className="w-20 h-20 flex items-center justify-center overflow-hidden rounded-full bg-white shadow-md">
               <Image
@@ -91,7 +95,7 @@ export default function Markalar() {
               />
             </div>
             <span className="block text-center text-sm">{brand.name}</span>
-          </a>
+          </Link>
         ))}
       </div>
       {scrollPosition < containerWidth - 1 && (
