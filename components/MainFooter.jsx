@@ -4,12 +4,13 @@ import React from "react";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import { GiSharkBite } from "react-icons/gi";
 
 export default function MainFooter() {
   return (
     <div className="bg-black text-white py-10">
       <Container>
-        <Grid container spacing={4}>
+        <Grid container spacing={5}>
           <Grid item xs={12} sm={6} md={3}>
             <Typography variant="h6" className="mb-4">
               Şirket
@@ -104,22 +105,19 @@ export default function MainFooter() {
             <div className="mt-4"></div>
           </Grid>
         </Grid>
-        <div className="text-center mt-8">
-          <Typography variant="body2" color="textSecondary">
-            © 2024 OZOS && MMS. Tüm hakları saklıdır.
+        <div className="text-center mt-8 p-2 text-white">
+          <Typography variant="body2">
+            © 2024 OZOS && MOMS. Tüm hakları saklıdır.
           </Typography>
-          <Typography variant="body2" color="textSecondary">
-            ~ MUSTAFA OĞUZHAN MENDİ ~
+          <Typography variant="body2">
+            {" "}
+            <span className="flex gap-x-5 justify-center items-center">
+              <GiSharkBite size={20} />~ MUSTAFA OĞUZHAN MENDİ ~{" "}
+              <GiSharkBite size={20} />
+            </span>
           </Typography>
         </div>
       </Container>
     </div>
   );
 }
-// const MainFooter = () => {
-//   return (
-
-//   );
-// };
-
-// export default MainFooter;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -8,10 +8,16 @@ import Rating from "@mui/material/Rating";
 import IconButton from "@mui/material/IconButton";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 export default function CokSatanlar({ urunler, baslik }) {
   const [startItemIndex, setStartItemIndex] = useState(0);
-
+  const user = useSelector((state) => state.user);
+  const [favoriler, setFavoriler] = useState([]);
   const baslikRengi =
     baslik === "Çok Satanlar"
       ? "text-green-500"
@@ -33,6 +39,96 @@ export default function CokSatanlar({ urunler, baslik }) {
     }
   };
 
+  useEffect(() => {
+    const favList = async () => {
+      if (user?.user?.email) {
+        try {
+          const response = await axios.post(
+            "https://localhost:7257/Fav/favList",
+            null,
+            {
+              headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (response.status === 200) {
+            const favoriIds = response?.data?.map((fav) => fav?.urunId);
+            setFavoriler(favoriIds);
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+
+    favList();
+  }, [user?.user?.email]); // Bu useEffect'in user?.user?.email değeri değiştiğinde yeniden çalışmasını sağlar
+
+  const favEkle = async (urun) => {
+    if (!user?.user?.email) {
+      alert("Favorilere eklemek için lütfen giriş yapın.");
+      return;
+    }
+
+    try {
+      const reqBody = JSON.stringify({
+        id: 0,
+        urunId: urun?.id,
+        email: user?.user?.email,
+      });
+
+      const response = await axios.post(
+        "https://localhost:7257/Fav/favEkle",
+        reqBody,
+        {
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setFavoriler([...favoriler, urun.id]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const favSil = async (urun) => {
+    if (!user?.user?.email) {
+      alert("Favorilerden silmek için lütfen giriş yapın.");
+      return;
+    }
+
+    try {
+      const reqBody = JSON.stringify({
+        urunId: urun.id,
+        email: user?.user?.email,
+      });
+
+      const response = await axios.post(
+        "https://localhost:7257/Fav/favSil",
+        reqBody,
+        {
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setFavoriler(favoriler.filter((favId) => favId !== urun.id));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <div className="relative mx-auto max-w-screen-lg mt-2">
       <div className={`text-2xl font-semibold ${baslikRengi}`}>{baslik}</div>
@@ -61,24 +157,52 @@ export default function CokSatanlar({ urunler, baslik }) {
                 leaveTo="opacity-0"
                 className="max-w-xs mx-auto"
               >
-                <Link href={`/${urun.id}`} passHref>
-                  <Card
+                <Card
+                  sx={{
+                    position: "relative",
+                    maxWidth: 250,
+                    backgroundColor:
+                      baslik === "Popüler Ürünler"
+                        ? "#E5F3FF"
+                        : baslik === "Çok Satanlar"
+                        ? "#E0F7FA"
+                        : baslik === "Bu Ay Herkes Peşinde"
+                        ? "#E8EAF6"
+                        : "#FFFFFF",
+                    padding: "16px",
+                  }}
+                  className={`overflow-hidden transform transition-transform duration-300  hover:shadow-lg hover:border-transparent cursor-pointer p-2 mb-2 relative`}
+                >
+                  <IconButton
                     sx={{
-                      maxWidth: 250,
-                      backgroundColor:
-                        baslik === "Popüler Ürünler"
-                          ? "#E5F3FF"
-                          : baslik === "Çok Satanlar"
-                          ? "#E0F7FA"
-                          : baslik === "Bu Ay Herkes Peşinde"
-                          ? "#E8EAF6"
-                          : "#FFFFFF",
+                      position: "absolute",
+                      top: 4,
+                      right: 4,
+                      backgroundColor: "#ffffff",
+                      borderRadius: "50%",
+                      border: favoriler.includes(urun.id) ? "" : "none",
+                      "&:hover": {
+                        border: favoriler.includes(urun.id)
+                          ? "2px solid "
+                          : "2px solid orange",
+                      },
                     }}
-                    className={`overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-lg hover:border-transparent cursor-pointer p-2 mb-2`}
+                    aria-label="favorite"
+                    onClick={() => {
+                      favoriler.includes(urun.id)
+                        ? favSil(urun)
+                        : favEkle(urun);
+                    }}
                   >
+                    {favoriler.includes(urun.id) ? (
+                      <FavoriteIcon sx={{ color: "red" }} />
+                    ) : (
+                      <FavoriteBorderIcon />
+                    )}
+                  </IconButton>
+                  <Link href={`/${urun.id}`} passHref>
                     <CardMedia
                       sx={{ height: 220 }}
-                      // image={urun.ImgUrl}
                       image={`https://localhost:7257/Urun/${urun.imgUrl}`}
                       title="Ürün Resmi"
                     />
@@ -122,12 +246,12 @@ export default function CokSatanlar({ urunler, baslik }) {
                           color="red"
                           className="font-semibold mb-2"
                         >
-                          İndirimli Fiyat: {urun.fiyat - urun.indirim} TL
+                          İndirimli Fiyat: {urun.urunFiyat - urun.indirim} TL
                         </Typography>
                       )}
                     </CardContent>
-                  </Card>
-                </Link>
+                  </Link>
+                </Card>
               </Transition>
             ))}
         </div>

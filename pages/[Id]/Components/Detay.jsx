@@ -1,5 +1,12 @@
-import { useState } from "react";
-import { Button, Snackbar, Alert } from "@mui/material";
+import { useState, useCallback } from "react";
+import {
+  Button,
+  Snackbar,
+  Alert,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { apiFormatter } from "@/utils/DateFormatter";
 import axios from "axios";
@@ -7,14 +14,15 @@ import { useSelector } from "react-redux";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
+import { useSepet } from "@/context/SepetContext";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 export default function Detay({ urun, onSepeteEkle }) {
   const user = useSelector((state) => state.user);
   const [adet, setAdet] = useState(1);
   const [open, setOpen] = useState(false);
-  const [color, setColor] = useState("black"); // Renk seçeneği
+  const { toplamAdetGuncelle } = useSepet();
   const [storage, setStorage] = useState("128gb"); // Depolama seçeneği
-  const [toplamTutar, setToplamTutar] = useState();
 
   const handleArttir = () => {
     setAdet((prevQuantity) => prevQuantity + 1);
@@ -72,9 +80,9 @@ export default function Detay({ urun, onSepeteEkle }) {
         // Mevcut adeti yeni eklenen adetle topla
         mevcutUrun.urunAdet += adet;
 
-        // Güncellenmiş ürünü ve yeni sepeti LocalStorage'a kaydet
         mevcutSepet[urun.id] = mevcutUrun;
         localStorage.setItem("sepet", JSON.stringify(mevcutSepet));
+        toplamAdetGuncelle();
       }
     } catch (err) {
       console.log(err);
@@ -82,7 +90,7 @@ export default function Detay({ urun, onSepeteEkle }) {
   };
 
   return (
-    <div className="flex justify-center items-center mt-5">
+    <div className="flex justify-center  mt-5 gap-5">
       <div className="max-w-screen-lg bg-white rounded-lg p-6 shadow-xl flex">
         <div className="w-1/2 flex justify-center">
           <div className="relative w-full max-w-md">
@@ -170,7 +178,7 @@ export default function Detay({ urun, onSepeteEkle }) {
 
               <div className="flex items-center">
                 {/* <span className="mr-2">Depolama:</span> */}
-                <div className="flex">
+                <div className="flex flex-col gap-3">
                   <div
                     className={`border border-gray-300 rounded-md px-2 py-1 mr-2 cursor-pointer ${
                       storage === "128gb" && "bg-gray-200"
@@ -181,6 +189,10 @@ export default function Detay({ urun, onSepeteEkle }) {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="text-red-600 font-bold p-3 text-xl">
+              {" "}
+              {urun?.urunFiyat} TL
             </div>
           </div>
           <div className="flex justify-center">
@@ -196,6 +208,35 @@ export default function Detay({ urun, onSepeteEkle }) {
               Sepete Ekle
             </Button>
           </div>
+        </div>
+      </div>
+      <div className="">
+        <div className="flex items-center gap-2 mb-2 bg-blue-200 p-3 rounded-xl">
+          <span className="text-gray-700 font-bold text-sm">OZOS</span>
+          <img src="/mavitik.png" alt="Mavittik Icon" className="h-6 w-6" />
+          <Card
+            sx={{
+              backgroundColor: "green", // Silik mavi arka plan
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              padding: "4px 8px", // Daha küçük padding
+              borderRadius: "8px",
+              boxShadow: 1,
+            }}
+          >
+            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+              9.9
+            </Typography>
+          </Card>
+        </div>
+        <div className="flex gap-x-4 items-center bg-gray-200 rounded-lg p-3 mb-4 text-center">
+          <ReceiptIcon fontSize="large" />
+          <span>Kurumsal faturaya uygun</span>
+        </div>
+        <div className=" flex gap-x-4 items-center bg-orange-500 text-white rounded-lg p-3 text-center">
+          <LocalShippingIcon fontSize="large" />
+          <span> En geç 1 Haziran Cumartesi kapında</span>
         </div>
       </div>
 

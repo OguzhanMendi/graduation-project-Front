@@ -3,13 +3,13 @@ import Header from "@/components/Header";
 import Markalar from "@/components/Markalar";
 import Textbar from "@/components/Textbar";
 import { Divider } from "@mui/material";
-import { BsArrowUp } from "react-icons/bs";
 
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import MainFooter from "@/components/MainFooter";
 import ImgCard from "@/components/ImgCard";
-
+import { BsArrowUp, BsWhatsapp } from "react-icons/bs";
+import ImgFooter from "@/components/ImgFooter";
 export default function Home() {
   useEffect(() => {
     cokSatanListService();
@@ -19,540 +19,6 @@ export default function Home() {
   const [cokSatanData, setCokSataData] = useState([{}]);
   const [popData, setPopData] = useState([{}]);
   const [HerkesPesindeData, setHerkesPesindeData] = useState([{}]);
-
-  const urunler = [
-    {
-      ad: "İphone 15",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 3,
-      fiyat: 4000,
-      indirim: 500,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 13",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 2000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 12",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1500,
-      indirim: 200,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 12",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1500,
-      indirim: 200,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 12",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1500,
-      indirim: 200,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 12",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1500,
-      indirim: 200,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 12",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1500,
-      indirim: 200,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 12",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1500,
-      indirim: 200,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 12",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1500,
-      indirim: 200,
-      ImgUrl: "/ip-15.jpg",
-    },
-  ];
-
-  const popUrunler = [
-    {
-      ad: "İphone 15",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 3,
-      fiyat: 4000,
-      indirim: 500,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 13",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 2000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 12",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1500,
-      indirim: 200,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 11",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 1,
-      fiyat: 3000,
-      indirim: 2500,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 16",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 10000,
-      indirim: 2500,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 1",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 1,
-      fiyat: 8900,
-      indirim: 2500,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-    {
-      ad: "İphone 2",
-      aciklama: "256 GB Ultra Lüks İphone.",
-      puan: 5,
-      fiyat: 1000,
-      indirim: 300,
-      ImgUrl: "/ip-15.jpg",
-    },
-  ];
 
   const coksatan = "Çok Satanlar";
   const popbasik = "Popüler Ürünler";
@@ -568,9 +34,26 @@ export default function Home() {
 
   const [scrolButonGoster, setscrolButonGoster] = useState(false);
 
+  // WhatsApp'a yönlendirme işlevi
+  const redirectToWhatsapp = () => {
+    // Buraya WhatsApp numaranızı girin
+    const whatsappNumber = "+905538873264";
+    // WhatsApp'a yönlendirme URL'si
+    const whatsappUrl = `https://wa.me/${whatsappNumber}`;
+    // Yeni pencerede WhatsApp'a yönlendirme
+    window.open(whatsappUrl, "_blank");
+  };
+
+  const [whatsappIconGoster, setWhatsappIconGoster] = useState(true);
   useEffect(() => {
     const handleScroll = () => {
       setscrolButonGoster(window.scrollY > 0);
+
+      if (window.scrollY > 0) {
+        setWhatsappIconGoster(false);
+      } else {
+        setWhatsappIconGoster(true);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -717,9 +200,24 @@ export default function Home() {
             </button>
           </div>
         )}
+        {whatsappIconGoster && (
+          <div className="fixed bottom-20 right-10 z-50">
+            <button
+              onClick={redirectToWhatsapp}
+              className="bg-green-500 text-white rounded-full p-2 hover:bg-green-600 transition duration-300 flex items-center space-x-2"
+            >
+              <BsWhatsapp className="text-2xl" />
+              <span>Online Müşteri Hizmetleri</span>
+            </button>
+          </div>
+        )}
 
         {/* İçeriğin geri kalan kısmı esneyerek alt bilgiyi aşağı iter */}
         <div className="flex-grow"></div>
+
+        <div className="flex justify-center mt-16 p-3">
+          <ImgFooter />
+        </div>
 
         <div className="mt-5">
           <MainFooter />

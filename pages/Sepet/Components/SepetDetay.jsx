@@ -171,7 +171,8 @@ export default function SepetDetay() {
 
     if (response.status === 200) {
       alert("Siparişiniz başarıyla alındı. Anasayfaya yönlendiriliyorsunuz.");
-      // Anasayfaya yönlendir
+      localStorage.removeItem("sepet");
+      localStorage.removeItem("");
       router.push("/");
     }
   };

@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import HistoryIcon from "@mui/icons-material/History";
@@ -19,13 +19,17 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useDispatch } from "react-redux";
 import Cookie from "js-cookie";
 import { useRouter } from "next/router";
+import { useSepet } from "@/context/SepetContext";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 export default function Header({ sepetAdet }) {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const router = useRouter();
 
-  //
+  const { toplamAdet, toplamAdetGuncelle } = useSepet();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -46,10 +50,11 @@ export default function Header({ sepetAdet }) {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    debugger;
     let searchs = localStorage.getItem("search");
     setSearch(searchs);
-  }, []);
+    toplamAdetGuncelle();
+  }, [toplamAdetGuncelle]);
+
   return (
     <>
       <div className="w-full  flex  justify-center gap-10 p-1  items-center ">
@@ -109,9 +114,9 @@ export default function Header({ sepetAdet }) {
               onClick={handleClick}
             >
               <span>
-                <PersonIcon />
+                <PersonOutlineIcon />
               </span>
-              <span>{username}</span>
+              <span className="font-semibold">{username}</span>
             </div>
             <div>
               <Menu
@@ -140,6 +145,12 @@ export default function Header({ sepetAdet }) {
                   </ListItemIcon>
                   <ListItemText primary="Geçmiş Siparişlerim" />
                 </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon>
+                    <FavoriteBorderIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Favorilerim" />
+                </MenuItem>
                 <MenuItem
                   onClick={() => {
                     dispatch({
@@ -166,12 +177,21 @@ export default function Header({ sepetAdet }) {
             </div>
           </Link>
         )}
+
         <Link href="/Sepet">
           <div className="flex gap-1 items-center hover:text-blue-700 hover:cursor-pointer">
-            <span>
-              <ShoppingBasketIcon />
+            <span
+              className={
+                toplamAdet > 0
+                  ? "animate-pulse flex  gap-x-1 items-center font-semibold text-red-800"
+                  : "flex gap-x-1 items-center "
+              }
+            >
+              <span>
+                <ShoppingCartIcon />
+              </span>
+              Sepetim{toplamAdet > 0 && ` (${toplamAdet})`}
             </span>
-            <span>Sepetim</span>
           </div>
         </Link>
       </div>
