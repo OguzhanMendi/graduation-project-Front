@@ -35,7 +35,16 @@ export default function User() {
 
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`/api/users/${userId}`);
+      await axios.post(
+        `https://localhost:7257/Admin/UserSil?id=${userId}`,
+        null,
+        {
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "Application / json",
+          },
+        }
+      );
       userList();
     } catch (err) {
       console.error(err);

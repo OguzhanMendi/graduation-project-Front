@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Markalar from "@/components/Markalar";
 import Textbar from "@/components/Textbar";
 import { Divider } from "@mui/material";
+import Badge from "@mui/material/Badge";
 
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
@@ -11,6 +12,7 @@ import ImgCard from "@/components/ImgCard";
 import { BsArrowUp, BsWhatsapp } from "react-icons/bs";
 import ImgFooter from "@/components/ImgFooter";
 import DiscountPage from "@/components/DiscountPage";
+import Banner from "@/components/Banner";
 export default function Home() {
   useEffect(() => {
     cokSatanListService();
@@ -20,6 +22,7 @@ export default function Home() {
   const [cokSatanData, setCokSataData] = useState([{}]);
   const [popData, setPopData] = useState([{}]);
   const [HerkesPesindeData, setHerkesPesindeData] = useState([{}]);
+  const [showMessage, setShowMessage] = useState(false);
 
   const coksatan = "Çok Satanlar";
   const popbasik = "Popüler Ürünler";
@@ -45,16 +48,9 @@ export default function Home() {
     window.open(whatsappUrl, "_blank");
   };
 
-  const [whatsappIconGoster, setWhatsappIconGoster] = useState(true);
   useEffect(() => {
     const handleScroll = () => {
       setscrolButonGoster(window.scrollY > 0);
-
-      if (window.scrollY > 0) {
-        setWhatsappIconGoster(false);
-      } else {
-        setWhatsappIconGoster(true);
-      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -62,6 +58,14 @@ export default function Home() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowMessage(true);
+    }, 5000); // 5 seconds
+
+    return () => clearTimeout(timer);
   }, []);
 
   ////////************ ============================= */
@@ -202,17 +206,35 @@ export default function Home() {
             </button>
           </div>
         )}
-        {whatsappIconGoster && (
-          <div className="fixed bottom-20 right-10 z-50">
+        <div className="fixed bottom-10 left-5 z-50">
+          <Badge
+            badgeContent={
+              <span
+                className={`whitespace-nowrap  p-4 mb-12 ml-10 rounded-2xl shadow-lg bg-white text-black  ${
+                  showMessage ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                Selam , Size nasıl yardımcı olabilirim ?
+              </span>
+            }
+            overlap="circle"
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+          >
             <button
               onClick={redirectToWhatsapp}
-              className="bg-green-500 text-white rounded-full p-2 hover:bg-green-600 transition duration-300 flex items-center space-x-2"
+              className="group relative bg-green-500 text-white rounded-full p-4 hover:bg-green-600 transition duration-300 flex items-center justify-center"
             >
-              <BsWhatsapp className="text-2xl" />
-              <span>Online Müşteri Hizmetleri</span>
+              <div className="relative">
+                <BsWhatsapp className="text-4xl animate-spin-slow" />
+              </div>
             </button>
-          </div>
-        )}
+          </Badge>
+        </div>
+
+        {/* Sağda ve solda reklam bannerları */}
 
         {/* İçeriğin geri kalan kısmı esneyerek alt bilgiyi aşağı iter */}
         <div className="flex-grow"></div>

@@ -7,7 +7,9 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import LinearProgress from "@mui/material/LinearProgress";
+import { useSepet } from "@/context/SepetContext";
 export default function SepetDetay() {
+  const { toplamAdetGuncelle } = useSepet();
   const router = useRouter();
   // Alışveriş sepetindeki ürünleri saklamak için state tanımla
   const [urunler, setUrunler] = useState([]);
@@ -62,7 +64,8 @@ export default function SepetDetay() {
       await AdetDegistirService(
         id,
         yeniAdet,
-        urunlerinToplamHesapla(urun, yeniAdet)
+        urunlerinToplamHesapla(urun, yeniAdet),
+        urun.id
       );
     } catch (err) {
       console.log(err);
@@ -120,7 +123,7 @@ export default function SepetDetay() {
     }
   }, [urunler]);
 
-  const AdetDegistirService = async (id, urunAdet, toplamTutar) => {
+  const AdetDegistirService = async (id, urunAdet, toplamTutar, urunId) => {
     debugger;
     try {
       const reqBody = JSON.stringify({

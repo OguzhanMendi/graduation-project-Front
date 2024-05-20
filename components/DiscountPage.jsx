@@ -13,7 +13,7 @@ export default function DiscountPage() {
   }, []);
 
   function hesaplaKalanZaman() {
-    const bitisTarihi = new Date("2024-05-30"); // İndirim bitiş tarihi
+    const bitisTarihi = new Date("2024-06-01"); // İndirim bitiş tarihi
     const fark = bitisTarihi.getTime() - new Date().getTime();
     let kalanZaman = {};
 

@@ -161,14 +161,14 @@ export default function CokSatanlar({ urunler, baslik }) {
                   sx={{
                     position: "relative",
                     maxWidth: 250,
-                    backgroundColor:
-                      baslik === "Popüler Ürünler"
-                        ? "#E5F3FF"
-                        : baslik === "Çok Satanlar"
-                        ? "#E0F7FA"
-                        : baslik === "Bu Ay Herkes Peşinde"
-                        ? "#E8EAF6"
-                        : "#FFFFFF",
+                    // backgroundColor:
+                    //   baslik === "Popüler Ürünler"
+                    //     ? "#E5F3FF"
+                    //     : baslik === "Çok Satanlar"
+                    //     ? "#E0F7FA"
+                    //     : baslik === "Bu Ay Herkes Peşinde"
+                    //     ? "#E8EAF6"
+                    //     : "#FFFFFF",
                     padding: "16px",
                   }}
                   className={`overflow-hidden transform transition-transform duration-300  hover:shadow-lg hover:border-transparent cursor-pointer p-2 mb-2 relative`}
@@ -211,7 +211,7 @@ export default function CokSatanlar({ urunler, baslik }) {
                         gutterBottom
                         variant="h5"
                         component="div"
-                        className="truncate max-w-[14ch]" // Tailwind sınıfları burada
+                        className="truncate max-w-[20ch]" // Tailwind sınıfları burada
                       >
                         {urun?.urunAd?.toLowerCase()}
                       </Typography>
