@@ -10,6 +10,7 @@ import MainFooter from "@/components/MainFooter";
 import ImgCard from "@/components/ImgCard";
 import { BsArrowUp, BsWhatsapp } from "react-icons/bs";
 import ImgFooter from "@/components/ImgFooter";
+import DiscountPage from "@/components/DiscountPage";
 export default function Home() {
   useEffect(() => {
     cokSatanListService();
@@ -163,12 +164,13 @@ export default function Home() {
     // </>
     <>
       <div className="flex flex-col min-h-screen">
+        <div className="flex justify-center w-full">
+          <DiscountPage />
+        </div>
         <div className="sticky top-0 z-50 bg-white">
           <Header />
         </div>
-        <div>
-          <Divider />
-        </div>
+
         <div className="flex justify-center">
           <Markalar />
         </div>

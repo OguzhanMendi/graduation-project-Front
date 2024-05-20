@@ -164,11 +164,12 @@ export default function UrunCard({ urunler }) {
                     {urun?.urunAd}
                   </Typography>
                   <Typography
-                    variant="body2"
-                    color="text.primary"
-                    className="mb-2"
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    className="truncate max-w-[14ch]" // Tailwind sınıfları burada
                   >
-                    {urun?.urunAciklama?.slice(0, 30)}
+                    {urun?.urunAd?.toLowerCase()}
                   </Typography>
                   <Rating
                     name="read-only"

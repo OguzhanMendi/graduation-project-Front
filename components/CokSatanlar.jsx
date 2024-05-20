@@ -202,13 +202,18 @@ export default function CokSatanlar({ urunler, baslik }) {
                   </IconButton>
                   <Link href={`/${urun.id}`} passHref>
                     <CardMedia
-                      sx={{ height: 220 }}
+                      sx={{ height: 200 }}
                       image={`https://localhost:7257/Urun/${urun.imgUrl}`}
                       title="Ürün Resmi"
                     />
                     <CardContent className="text-center">
-                      <Typography gutterBottom variant="h5" component="div">
-                        {urun.urunAd}
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        className="truncate max-w-[14ch]" // Tailwind sınıfları burada
+                      >
+                        {urun?.urunAd?.toLowerCase()}
                       </Typography>
                       <Typography
                         variant="body2"

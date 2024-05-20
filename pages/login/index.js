@@ -75,8 +75,13 @@ const Index = () => {
         });
         Cookie.set("user_token", response.data.token, { expires: 1 });
         //localStorage.setItem("user_token", response.data.token);
-        window.location.href = "/";
-        console.log(response.data);
+        if (rol === "u") {
+          window.location.href = "/";
+        } else if (rol === "s") {
+          window.location.href = "/";
+        } else if (rol === "a") {
+          window.location.href = "/admin";
+        }
       }
     } catch (err) {
       console.log(err);

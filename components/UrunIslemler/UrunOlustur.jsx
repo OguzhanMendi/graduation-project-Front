@@ -76,7 +76,7 @@ export default function UrunOlustur() {
     {
       id: 4,
       ad: "Elektronik",
-      özellik: [],
+      özellik: ["Elektronik"],
     },
   ];
 

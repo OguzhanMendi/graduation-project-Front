@@ -134,7 +134,7 @@ export default function index() {
     <>
       <div className="flex flex-col justify-center gap-1">
         {/* HEADER */}
-        <div className="sticky top-0 z-30 bg-white">
+        <div className="sticky top-0 z-50 bg-white">
           <Header />
         </div>
         {/* FİLTRE EKRANI SOLDA SABİT */}

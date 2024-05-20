@@ -2,6 +2,7 @@ import AdminHeader from "@/components/AdminHeader";
 import AdminSidebar from "@/components/AdminSidebar";
 
 import UrunOlustur from "@/components/UrunIslemler/UrunOlustur";
+import User from "@/components/User";
 import { Divider } from "@mui/material";
 import { useState, useEffect } from "react";
 export default function index() {
@@ -19,6 +20,9 @@ export default function index() {
 
         <div className="w-full ">
           {selectedCompo === "Urun" && <UrunOlustur />}
+          {selectedCompo === "kullanici" && <User />}
+
+          {/* kullanici */}
         </div>
       </div>
     </div>

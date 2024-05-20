@@ -23,8 +23,71 @@ import { useSepet } from "@/context/SepetContext";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { Divider } from "@mui/material";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 export default function Header({ sepetAdet }) {
+  const categories = [
+    {
+      id: 1,
+      name: "Kız",
+      subcategories: ["Giyim", "Ayakkabı", "Aksesuar"],
+    },
+    {
+      id: 2,
+      name: "Erkek",
+      subcategories: ["Giyim", "Ayakkabı", "Aksesuar"],
+    },
+    {
+      id: 3,
+      name: "Çocuk",
+      subcategories: ["Giyim", "Ayakkabı", "Oyuncak"],
+    },
+    {
+      id: 4,
+      name: "Çocuk",
+      subcategories: ["Giyim", "Ayakkabı", "Oyuncak"],
+    },
+    {
+      id: 5,
+      name: "Çocuk",
+      subcategories: ["Giyim", "Ayakkabı", "Oyuncak"],
+    },
+    {
+      id: 6,
+      name: "Çocuk",
+      subcategories: ["Giyim", "Ayakkabı", "Oyuncak"],
+    },
+    {
+      id: 7,
+      name: "Çocuk",
+      subcategories: ["Giyim", "Ayakkabı", "Oyuncak"],
+    },
+    {
+      id: 8,
+      name: "Çocuk",
+      subcategories: ["Giyim", "Ayakkabı", "Oyuncak"],
+    },
+    {
+      id: 9,
+      name: "Çocuk",
+      subcategories: ["Giyim", "Ayakkabı", "Oyuncak"],
+    },
+    {
+      id: 10,
+      name: "Çocuk",
+      subcategories: ["Giyim", "Ayakkabı", "Oyuncak"],
+    },
+    {
+      id: 11,
+      name: "Çocuk",
+      subcategories: ["Giyim", "Ayakkabı", "Oyuncak"],
+    },
+    // Diğer kategoriler...
+  ];
+  const [openCategory, setOpenCategory] = useState(null);
+
+  ///
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -68,6 +131,15 @@ export default function Header({ sepetAdet }) {
             <Image src={Logo} width={80} className="rounded-2xl" />
           </div>
         </Link>
+        <div>
+          <div className="bg-slate-50 flex items-center gap-2 p-1 text-gray-900 border-2 rounded-xl">
+            <LocationOnIcon />
+            <div className="flex flex-col">
+              <span>Türkiye için</span>
+              <span>Teslimat</span>
+            </div>
+          </div>
+        </div>
         <div>
           <TextField
             id="outlined-basic"
@@ -194,6 +266,10 @@ export default function Header({ sepetAdet }) {
             </span>
           </div>
         </Link>
+      </div>
+
+      <div>
+        <Divider />
       </div>
     </>
   );

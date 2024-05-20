@@ -54,6 +54,15 @@ export default function AdminSidebar({ selectedCompo }) {
                 >
                   Ürün Oluştur
                 </li>
+
+                <li
+                  className="py-2 hover:bg-gray-600 rounded-md"
+                  onClick={() => {
+                    selectedCompo("kullanici");
+                  }}
+                >
+                  Kullanıcılar
+                </li>
               </ul>
             )}
           </li>
